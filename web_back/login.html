@@ -26,7 +26,7 @@
                 <i class="iconfont icon-key"></i>
                 <input type="text" id="userName" class="input_txt" placeholder="邮箱/手机号">
                 <input type="password" id="userPassword" class="input_pass" placeholder="密码">
-                <input type="button" id="btn" class="input_sub" value="登 录">
+                <input type="button" id="btnLogin" class="input_sub" value="登 录">
             </form>
         </div>
 
@@ -57,7 +57,32 @@
     <script src="./js/jquery-1.12.4.min.js"></script>
     <script src="./js/bootstrap/js/bootstrap.min.js"></script>
     <script>
-        $("#btn").click(function() {
+        var user = {
+            login: function(myName, myPassword) {
+                $.post(
+                    'http://localhost:8000/admin/login', {
+                        user_name: myName,
+                        password: myPassword
+                    },
+                    function(res) {
+                        console.log(res);
+                        if (res.code === 200) {
+                            console.log(1)
+                                // alert('登录成功')
+                            location.href = 'index.html'
+
+                        } else {
+                            // alert(res.msg)
+                            $("#msgInfo").text(res.msg)
+                            $('#myModal').modal('show')
+                        }
+                    }
+                )
+            }
+        }
+    </script>
+    <script>
+        $("#btnLogin").click(function() {
 
             //获取用户名
             var myName = $('#userName').val().trim();
@@ -71,22 +96,7 @@
             }
             //回调
 
-            $.post(
-                'http://localhost:8000/admin/login', {
-                    user_name: myName,
-                    password: myPassword
-                },
-                function(res) {
-                    console.log(res);
-                    if (res.code === "200") {
-                        alert('登录成功')
-                    } else {
-                        // alert(res.msg)
-                        $("#msgInfo").text(res.msg)
-                        $('#myModal').modal('show')
-                    }
-                }
-            )
+            user.login(myName, myPassword)
 
         })
     </script>
