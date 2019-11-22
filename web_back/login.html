@@ -56,31 +56,7 @@
 
     <script src="./js/jquery-1.12.4.min.js"></script>
     <script src="./js/bootstrap/js/bootstrap.min.js"></script>
-    <script>
-        var user = {
-            login: function(myName, myPassword) {
-                $.post(
-                    'http://localhost:8000/admin/login', {
-                        user_name: myName,
-                        password: myPassword
-                    },
-                    function(res) {
-                        console.log(res);
-                        if (res.code === 200) {
-                            console.log(1)
-                                // alert('登录成功')
-                            location.href = 'index.html'
-
-                        } else {
-                            // alert(res.msg)
-                            $("#msgInfo").text(res.msg)
-                            $('#myModal').modal('show')
-                        }
-                    }
-                )
-            }
-        }
-    </script>
+    <script src="./js/user.js"></script>
     <script>
         $("#btnLogin").click(function() {
 
@@ -96,7 +72,19 @@
             }
             //回调
 
-            user.login(myName, myPassword)
+            user.login(myName, myPassword, function(res) {
+                console.log(res);
+                if (res.code === 200) {
+                    console.log(1)
+                        // alert('登录成功')
+                    location.href = 'index.html'
+
+                } else {
+                    // alert(res.msg)
+                    $("#msgInfo").text(res.msg)
+                    $('#myModal').modal('show')
+                }
+            })
 
         })
     </script>

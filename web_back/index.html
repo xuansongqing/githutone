@@ -105,42 +105,26 @@
             }
         }
     </script>
-    <script>
-        var user = {
-            logout: function() {
-                $.post(
-                    'http://localhost:8000/admin/logout',
-                    function(res) {
-                        console.log(res);
-                        if (res.code === 200) {
-                            location.href = './login.html'
-                        }
-                    }
-                )
-            },
-            logInfo: function() {
-                $.get('http://localhost:8000/admin/getuser',
-                    function(res) {
-                        console.log(res);
-                        if (res.code === 200) {
-                            $('.userImg').prop('src', res.data.user_pic)
-                            $('#userName').text(res.data.nickname)
-
-                        }
-                    }
-                )
-            }
-        }
-    </script>
+    <script src="./js/user.js"></script>
 
     <script>
         //获取用户信息
-        user.logInfo()
+        user.logInfo(function(res) {
+            console.log(res);
+            if (res.code === 200) {
+                $('.userImg').prop('src', res.data.user_pic)
+                $('#userName').text(res.data.nickname)
+
+            }
+        })
 
         //退出
         $('#btnLogout').click(function() {
-
-            user.logout()
+            user.logout(function(res) {
+                if (res.code === 200) {
+                    location.href = './login.html'
+                }
+            })
 
         })
     </script>
