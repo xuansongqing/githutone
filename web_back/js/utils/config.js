@@ -7,5 +7,5 @@ var ApiSur = {
     category_show: gitset + 'admin/category_search',
     category_del: gitset + 'admin/category_delete',
     category_add: gitset + 'admin/category_add',
-
+    category_edit: gitset + 'admin/category_edit',
 }
