@@ -3,22 +3,21 @@ var gitset = 'http://localhost:8000/'
 var user = {
     logout: function(callback) {
         $.post(
-            gitset + 'admin/logout',
+            ApiSur.user_logout,
             function(res) {
                 callback(res)
             }
         )
     },
     logInfo: function(callback) {
-        $.get(gitset + 'admin/getuser',
+        $.get(ApiSur.user_logInfo,
             function(res) {
                 callback(res)
             }
         )
     },
     login: function(myName, myPassword, callback) {
-        $.post(
-            gitset + 'admin/login', {
+        $.post(ApiSur.user_login, {
                 user_name: myName,
                 password: myPassword
             },
