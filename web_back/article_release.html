@@ -23,28 +23,27 @@
             写文章
         </div>
         <div class="container-fluid common_con">
-            <form class="form-horizontal article_form">
+            <form class="form-horizontal article_form" id="myfrom">
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">文章标题：</label>
                     <div class="col-sm-10">
-                        <input type="email" class="form-control" id="inputEmail3" placeholder="文章标题">
+                        <input type="text" name="title" class="form-control" id="inputEmail3" placeholder="文章标题">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputPassword3" class="col-sm-2 control-label">文章封面：</label>
                     <div class="col-sm-10">
-                        <input type="file" id="exampleInputFile">
+                        <input type="file" name="cover" id="coverImg">
+                    </div>
+                    <div>
+                        <img id="previewImg" style="height: 100px;" src="./618-icon.png" alt="">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">文章类别：</label>
                     <div class="col-sm-4">
-                        <select class="form-control">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
+                        <select class="form-control" name="type" id="user_release">
+                            
                         </select>
                     </div>
                 </div>
@@ -53,7 +52,7 @@
                     <div class="col-sm-4">
 
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="YYYY-MM-DD" id="dateinput">
+                            <input type="text" class="form-control" name="date" placeholder="YYYY-MM-DD" id="dateinput">
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="button"
                                     onclick="jeDate('#dateinput',{trigger:false,format: 'YYYY-MM-DD'})"><i
@@ -72,14 +71,63 @@
                 </div>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-success">发布</button>
-                        <button type="submit" class="btn btn-default">存为草稿</button>
+                        <button type="button" class="btn btn-success" id="btnAdd">发布</button>
+                        <button type="button" class="btn btn-default">存为草稿</button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
+    <script src="./js/utils/config.js"></script>
+    <script src="./js/utils/category.js"></script>
+    <script src="./js/utils/list.js"></script>
+    <script src="./js/template-web.js"></script>
+    <script type="text/html" id="temp_text">
+        {{each data item}}
+        <select class="form-control">
+            <option value={{item.id}}>{{item.name}}</option>
+        </select> {{/each}}
+    </script>
+    <script>
+        category.show(function(res) {
+            var htmlStr = template('temp_text', res)
+                // console.log(htmlStr);
+            $('#user_release').html(htmlStr)
+        })
 
+        //文章封面
+        $("#coverImg").change(function() {
+                // console.dir(this);
+                var file = this.files[0]
+                if (file) {
+                    //图片生成地址
+                    var url = URL.createObjectURL(file)
+                        // console.log(url);
+                    $("#previewImg").prop("src", url)
+
+                }
+            })
+            //发布文章
+        $("#btnAdd").click(function() {
+            //收集表单信息
+            var fd = new FormData(document.getElementById("myfrom"))
+            console.log(fd.get('title'));
+            fd.append('state', '已发布');
+
+            fd.set('content', tinyMCE.activeEditor.getContent())
+
+            //调用接口
+            list.add(fd, function(res) {
+                console.log(res)
+                if (res === 201) {
+                    alert('发布成功')
+                } else {
+                    alert(res.msg)
+                }
+            })
+
+        })
+    </script>
 </body>
 
 </html>
