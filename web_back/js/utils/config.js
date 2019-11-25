@@ -4,6 +4,7 @@ var ApiSur = {
     user_logInfo: gitset + 'admin/getuser',
     user_login: gitset + 'admin/login',
 
+
     category_show: gitset + 'admin/category_search',
     category_del: gitset + 'admin/category_delete',
     category_add: gitset + 'admin/category_add',

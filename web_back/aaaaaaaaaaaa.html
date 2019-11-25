@@ -37,7 +37,22 @@
                             <a href="javascript:deleteTr( 1 );" class="btn btn-danger btn-xs">删除</a>
                         </td>
                     </tr>
-
+                    <tr>
+                        <td>未分类</td>
+                        <td>uncategorized</td>
+                        <td class="text-center">
+                            <a href="javascript:;" class="btn btn-info btn-xs">编辑</a>
+                            <a href="javascript:deleteTr( 1 );" class="btn btn-danger btn-xs">删除</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>未分类</td>
+                        <td>uncategorized</td>
+                        <td class="text-center">
+                            <a href="javascript:;" class="btn btn-info btn-xs">编辑</a>
+                            <a href="javascript:deleteTr( 1 );" class="btn btn-danger btn-xs">删除</a>
+                        </td>
+                    </tr>
                 </tbody>
                 <tfoot>
                     <tr>
@@ -109,7 +124,7 @@
     <script src="./js/utils/category.js"></script>
     <script src="./js/utils/config.js"></script>
     <script src="./js/template-web.js"></script>
-    <!-- 模板引擎 -->
+    <!-- 模板引擎
     <script type="text/html" id="temp">
         {{each data item}}
         <tr>
@@ -121,126 +136,15 @@
             </td>
         </tr>
         {{/each}}
-    </script>
+    </script> -->
 
     <script>
-        getAddShow()
+        //获取数据
+        category.show(function(res) {
+            console.log(res);
 
-        function getAddShow() {
-            //获取数据
-            category.show(function(res) {
-                // console.log(res);
-                //模板引擎
-                if (res.code === 200) {
-                    var htmlStr = template("temp", res)
-                    $('#categoryAdd').html(htmlStr)
-                    console.log(htmlStr);
-                }
-            })
-        }
-
-
-
-        //删除
-        $('#categoryAdd').on('click', ".del", function() {
-            if (window.confirm('确定要删除吗?') === false) {
-                return;
-            }
-            var id = $(this).attr('data-id')
-            category.del(id, function(res) {
-                // console.log(res);
-                if (res.code === 200) {
-                    //删除成功,并刷新页面
-
-                    getAddShow()
-                } else {
-                    alert(res.msg)
-                }
-
-            })
         })
-
-        //编辑
-        $("#categoryAdd").on('click', ".edit", function() {
-
-                //读取编辑数据
-                var id = $(this).attr('data-id')
-                var name = $(this).attr('data-name')
-                var slug = $(this).attr('data-slug')
-                    //显示编辑模态框
-                $('#editModal').modal('show')
-                    //显示编辑数据
-                $('#user-edit-id').val(id)
-                $('#user-edit-name').val(name)
-                $('#user-edit-slug').val(slug)
-            })
-            //保存
-        $('#model_save').click(function() {
-                //获取信息
-                var id = $('#user-edit-id').val().trim()
-                var name = $('#user-edit-name').val().trim()
-                var slug = $('#user-edit-slug').val().trim()
-                    //判断是否为空
-                if (id === '' || name === '' || slug === '') {
-                    alert('不能为空')
-                    return;
-                }
-                category.edit(id, name, slug, function(res) {
-                    if (res.code === 200) {
-                        //刷新页面
-                        getAddShow()
-                            //隐藏模态框
-                        $('#editModal').modal('hide')
-                    }
-                })
-            })
-            //关闭按钮模态框隐藏
-        $('#model_editshutoff').click(function() {
-            $('#editModal').modal('hide');
-        });
-
-
-
-        //新增
-        $('#model_add').click(function() {
-                //获取信息
-                var name = $('#user-name').val().trim()
-                var slug = $('#user-slug').val().trim()
-                    //判断是否为空
-                if (name === '' || slug === '') {
-                    alert('不能为空')
-                    return;
-                }
-                console.log(name, slug);
-                //发送请求
-                category.add(name, slug, function(res) {
-                    console.log(res)
-                    if (res.code === 200) {
-                        //添加成功
-                        //重新请求数据
-                        getAddShow()
-                            //清空input框
-                        $('#user-name').val('')
-                        $('#user-slug').val('')
-                            //模态框隐藏
-                        $('#addModal').modal('hide')
-                    } else {
-                        alert(res.msg)
-                    }
-
-                })
-            })
-            //关闭按钮模态框隐藏
-        $('#model_shutoff').click(function() {
-            // alert('shutoff');
-            $('#user-name').val('')
-            $('#user-slug').val('')
-            $('#addModal').modal('hide');
-        });
     </script>
-
-
-
 </body>
 
 </html>

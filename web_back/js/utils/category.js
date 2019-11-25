@@ -5,6 +5,7 @@ var category = {
             function(res) {
                 callback(res)
             })
+
     },
     del: function(id, callback) {
         $.post(ApiSur.category_del, {
