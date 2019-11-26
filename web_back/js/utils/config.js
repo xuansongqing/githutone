@@ -12,4 +12,6 @@ var ApiSur = {
     list_show: gitset + 'admin/search',
     list_del: gitset + 'admin/article_delete',
     list_add: gitset + 'admin/article_publish',
+    list_getDetail: gitset + 'admin/search',
+    list_edit: gitset + 'admin/article_edit',
 }
