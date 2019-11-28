@@ -13,7 +13,7 @@ var comment = {
     get: function(acticle_id, callback) {
         $.get(
             ApiSur.comment_get, {
-                'acticle_id': acticle_id,
+                'article_id': acticle_id,
             },
             function(res) {
                 callback(res)

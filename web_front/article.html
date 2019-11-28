@@ -189,12 +189,14 @@
     <script src="./js/utlis/comment.js"></script>
     <script src="./js/template-web.js"></script>
 
-
+    <script src="./js/dayjs/dayjs.min.js"></script>
+    <script src="./js/dayjs/relative.min.js"></script>
+    <script src="./js/dayjs/zh_cn.js"></script>
     <script type="text/html" id="temp_comment">
         {{each data item}}
         <div class="comment_detail_list">
             <div class="person_pic fl">{{item.name.substr(0,1)}}</div>
-            <div class="name_time fl"><b>{{item.name}}</b><span>4小时前</span></div>
+            <div class="name_time fl"><b>{{item.name}}</b><span>{{item.relativeDt}}</span></div>
             <div class="comment_text fl">
                 {{item.content}}
             </div>
@@ -202,6 +204,12 @@
         {{/each}}
     </script>
     <script>
+        //dayjs 插件
+        dayjs.extend(dayjs_plugin_relativeTime)
+            //dayjs语言设置
+        dayjs.locale('zh-cn')
+
+
         //获取id
         var id = location.search.substr(4)
             // console.log(id)
@@ -258,6 +266,15 @@
             comment.get(id, function(res) {
                 console.log(res);
                 res.data.reverse();
+
+                //数组循环
+                res.data.forEach(function(item) {
+                    item.relativeDt = dayjs(item.dt).toNow()
+
+                });
+                console.log(res.data);
+
+
                 var htmlStr = template("temp_comment", res)
                     // console.log(htmlStr);
                 $("#comment_list").html(htmlStr)
